@@ -18,9 +18,9 @@ document.body.appendChild(renderer.domElement);
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 scene.add(ambientLight);
 // I added ambientLight so that we can see our setup when sun is not there
-const buildindTexture = new THREE.TextureLoader().load("/building.jpg");
-const skyTexture = new THREE.TextureLoader().load("/sky.jpg");
-const grassTexture = new THREE.TextureLoader().load("/grass.jpg");
+const buildindTexture = new THREE.TextureLoader().load("images/building.jpg");
+const skyTexture = new THREE.TextureLoader().load("images/sky.jpg");
+const grassTexture = new THREE.TextureLoader().load("images/grass.jpg");
 // To cast shadow
 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
 directionalLight.position.set(-1, 1, 1);
@@ -108,9 +108,10 @@ const animate = () => {
     const pathDate = new Date("2023-02-05T00:00:00Z");
     pathDate.setHours(i);
     const pathPosition = SunCalc.getPosition(pathDate, latitude, longitude);
-    const pathX = (pathPosition.azimuth / Math.PI) * 80;
-    const pathY = (-pathPosition.altitude / Math.PI) * 80;
+    const pathX = (pathPosition.azimuth / Math.PI) * 120;
+    const pathY = (-pathPosition.altitude / Math.PI) * 120;
     pathPoints.push(new THREE.Vector3(pathX, -pathY, 0));
+    // scene.add(pathPoints);
   }
   // Sun as the source of directionalLight
   directionalLight.position.copy(sun.position);
