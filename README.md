@@ -5,7 +5,7 @@ https://user-images.githubusercontent.com/76102333/219871078-a66f95b2-0765-4bda-
 
 
 ##  Getting Started 👨‍💻
-### Setup the repository to your local environment.
+### Setup the repository `in` your local environment
 
 1. `Fork` the repository  - Creates a replica of repository to your local environment.
 2. Clone the repository - Downloads all repo files to your machine, using
