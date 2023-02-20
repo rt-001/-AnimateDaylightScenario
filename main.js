@@ -69,11 +69,7 @@ const sun = new THREE.Mesh(
 sun.position.set(20, 5, 0);
 sun.castShadow = true;
 scene.add(sun);
-const sunPath = new THREE.Line(
-  new THREE.BufferGeometry(),
-  new THREE.LineBasicMaterial({ color: 0xffffff })
-);
-scene.add(sunPath);
+
 // VerticalPlane
 const VerticalPlane = new THREE.Mesh(
   new THREE.PlaneBufferGeometry(100, 400),
@@ -89,7 +85,7 @@ const animate = () => {
   const elapsedTime = clock.getElapsedTime();
 
   const date = new Date("2023-02-05T00:00:00Z");
-  date.setSeconds((elapsedTime * 86400) / 10);
+  date.setSeconds((elapsedTime * 86400) / 12);
 
   const latitude = 37.2852405;
   const longitude = -122.0168126;
@@ -101,7 +97,6 @@ const animate = () => {
 
   sun.position.set(sunX, -sunZ, 0);
   sun.lookAt(0, 0, 0);
-
   // I made this just to see how sun's circular path was changing
   const pathPoints = [];
   for (let i = 0; i < 24; i++) {
@@ -110,9 +105,31 @@ const animate = () => {
     const pathPosition = SunCalc.getPosition(pathDate, latitude, longitude);
     const pathX = (pathPosition.azimuth / Math.PI) * 120;
     const pathY = (-pathPosition.altitude / Math.PI) * 120;
-    pathPoints.push(new THREE.Vector3(pathX, -pathY, 0));
-    // scene.add(pathPoints);
+    pathPoints.push(new THREE.Vector3(-pathX, -pathY, 0));
   }
+  // I tried for the curve to show path but it was not smooth
+
+  // const curve = new THREE.CatmullRomCurve3(pathPoints);
+
+  // const curveGeometry = new THREE.BufferGeometry().setFromPoints(
+  //   curve.getPoints(100)
+  // );
+  // const curveMaterial = new THREE.LineBasicMaterial({ color: 0xff0000 });
+  // const curveObject = new THREE.Line(curveGeometry, curveMaterial);
+  // scene.add(curveObject);
+
+  // Showing path as distinct points
+  const pathGeometry = new THREE.BufferGeometry().setFromPoints(pathPoints);
+  // Create a points material with red color
+  const pointsMaterial = new THREE.PointsMaterial({
+    color: 0xff0000,
+    size: 1,
+  });
+  // Create a points object with the geometry and material
+  const pathPointsObject = new THREE.Points(pathGeometry, pointsMaterial);
+  console.log(pathPoints);
+  // Add the points object to the scene
+  scene.add(pathPointsObject);
   // Sun as the source of directionalLight
   directionalLight.position.copy(sun.position);
   renderer.render(scene, camera);
